@@ -7,7 +7,6 @@ settings/*.json
 *.json
 *.pyc
 *.dll
-custom_cogs/*
 settings/*
 !settings/*.sample
 cogs/utils/temp.txt
