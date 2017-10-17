@@ -750,6 +750,13 @@ class Misc:
             await ctx.send(self.bot.bot_prefix + 'Set default afk status. You will now appear as ``{}`` when not on Discord.'.format(
                                             opt['default_status']))
 
+    @commands.command(pass_context=True)
+    async def banana(self, ctx, txt: str = None):
+        """No one suspects the banana"""
+        await ctx.message.delete()
+
+
+
 
 def setup(bot):
     bot.add_cog(Misc(bot))

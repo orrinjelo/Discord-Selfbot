@@ -324,7 +324,7 @@ class Debugger:
     @commands.command(pass_context=True)
     async def load(self, ctx, *, msg):
         """Load a module."""
-        await ctx.message.delete()
+        # await ctx.message.delete()
         try:
             if os.path.exists("custom_cogs/{}.py".format(msg)):
                 self.bot.load_extension("custom_cogs.{}".format(msg))
