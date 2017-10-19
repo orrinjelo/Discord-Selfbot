@@ -178,10 +178,6 @@ for f in samples:
 
 bot = commands.Bot(command_prefix=get_config_value('config', 'cmd_prefix'), description='''Selfbot by appu1232''', self_bot=True)
 
-if __name__ == "__main__":
-    _runs_in_loop = False
-else:
-    _runs_in_loop = True
 
 bot.bot_prefix = get_config_value('config', 'bot_identifier')
 if bot.bot_prefix != '':
