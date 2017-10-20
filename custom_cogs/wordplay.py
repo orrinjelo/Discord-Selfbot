@@ -1,6 +1,7 @@
 import discord
 import io
 import re
+from wordcloud import WordCloud
 
 from discord.ext import commands
 from cogs.utils.checks import load_optional_config, get_google_entries, embed_perms
@@ -9,37 +10,67 @@ class WordSmith:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(pass_context=True)
+    @commands.group(pass_context=True, aliases=['ws'])
     async def wordsmith(self, ctx):
         """A utility to analyze word statistics"""
         await ctx.message.delete()
         if ctx.invoked_subcommand is None:
             await ctx.send(self.bot.bot_prefix + 'Invalid Syntax. See `>help wordsmith` for more info on how to use this command.')
 
-    @wordsmith.command(pass_context=True, name="frequency")
-    async def frequency(self, ctx):
+    @wordsmith.command(pass_context=True, name="frequency", aliases=['freq'])
+    async def frequency(self, ctx, channel, maxmsg=1000):
         try:
-            messages = await ctx.history(limit=1000).flatten()
+            messages = None
+            for chan in self.bot.get_all_channels():
+                if chan.guild == ctx.guild:
+                    if chan.name == channel:
+                        messages = await chan.history(limit=maxmsg).flatten()
+            if not messages:
+                await ctx.send("Channel not found.")
+                return
             wordDict = {}
             for msg in messages:
                 for word in re.sub(r'([^\s\w]|_)+', '', msg.content).lower().split():
+                    if word in banned:
+                        continue
                     if word in wordDict:
                         wordDict[word] += 1
                     else:
                         wordDict[word] = 1
-            await ctx.send(self.bot.bot_prefix + 'Frequency report over 1000 messages:')
-            count = 0
-            for key, val in sorted(wordDict.items(), key=lambda x: (-x[1],x[0])):
-                if key in banned:
-                    continue
-                count += 1
-                await ctx.send('\t{0}: {1}'.format(key, val))
-                if count == 10:
-                    break
+
+            # em = discord.Embed(color=0xbc0b0b, description='Frequency report over {0} messages for channel #{1}:'.format(maxmsg, channel))             
+            # count = 0
+            # for key, val in sorted(wordDict.items(), key=lambda x: (-x[1],x[0])):
+            #     if key in banned:
+            #         continue
+            #     count += 1
+            #     em.add_field(name=key, value=val, inline=False)
+            #     if count == 10:
+            #         break
+
+            # em.set_author(name='Jelobot WordSmith Frequency Analyzer')
+            # await ctx.send(embed=em)
+
+            wordcloud = WordCloud().generate_from_frequencies(wordDict)
+            import matplotlib.pyplot as plt
+            fig = plt.figure()
+            plt.imshow(wordcloud, interpolation='bilinear')
+            plt.axis("off")
+            f = io.BytesIO()
+            fig.savefig(f, format='png', bbox_inches='tight', pad_inches = 0, transparent=True)
+            await ctx.send(file=discord.File(fp=f.getbuffer(), filename="wordcloud.png"))
+            f.close()        
+
 
         except Exception as e:
             print('{}'.format(e))
         
+    @wordsmith.command(pass_context=True, name="channels", aliases=['chan','chans','ch'])
+    async def channels(self, ctx, channel):
+        try:
+            pass
+        except:
+            print("Fail.")
 
 
 
