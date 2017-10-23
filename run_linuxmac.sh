@@ -17,8 +17,13 @@ updater () {
 		if [ -d "settings" ]; then
 			cp -r settings settings_backup
 		fi
-		new=$(git remote show origin)
-		if [[ "${new}" =~ "up" ]] || [[ "${new}" =~ "fast-forwardable" ]] ; then
+
+		UPSTREAM=${1:-'@{u}'}
+		LOCAL=$(git rev-parse @)
+		REMOTE=$(git rev-parse "$UPSTREAM")
+		BASE=$(git merge-base @ "$UPSTREAM")
+
+		if [ $LOCAL = $REMOTE ] ; then
 			echo "The bot is up to date."
 			sleep 1
 		else

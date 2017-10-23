@@ -1,6 +1,7 @@
 import discord
 import io
 import numpy as np 
+import pandas as pd
 import pylab
 import matplotlib.pyplot as plt
 from discord.ext import commands
@@ -16,8 +17,11 @@ class Jplot:
     async def jplot(self, ctx):
         """Grabbing a plot and cracking a cold one with the boys"""
         # if ctx.invoked_subcommand is None:
-        #     await ctx.send(self.bot.bot_prefix + 'Invalid Syntax. See `>help jplot` for more info on how to use this command.')
+            await ctx.send(self.bot.bot_prefix + 'Invalid Syntax. See `>help jplot` for more info on how to use this command.')
 
+
+    @jplot.command(pass_context=True, name="xkcd")
+    async def xkcd(self, ctx):        
         await ctx.send(self.bot.bot_prefix + 'Check it out!.')
 
         np.random.seed(0)
@@ -49,6 +53,19 @@ class Jplot:
         await ctx.send(file=discord.File(fp=f.getbuffer(), filename="plot.png"))
         f.close()        
 
+
+    @jplot.command(pass_context=True, name="pandas")
+    async def pandas(self, ctx):        
+        fig = plt.figure()
+
+        ts = pd.Series(np.random.randn(24*7), index=pd.date_range('1/1/2000', periods=24*7, freq='H'))
+        ts = ts.cumsum()
+        ts.plot()
+
+        f = io.BytesIO()
+        fig.savefig(f, format='png')
+        await ctx.send(file=discord.File(fp=f.getbuffer(), filename="plot.png"))
+        f.close()  
     
 
 def setup(bot):

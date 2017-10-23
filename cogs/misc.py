@@ -759,9 +759,8 @@ class Misc:
     @commands.command(pass_context=True, aliases=['brusselsprouts','bs'])
     async def brusselssprouts(self, ctx, txt: str = None):
         """Brussels Sprouts are good for you."""
-        await ctx.send('!ghostbucks')
-        await asyncio.sleep(0.2)
-        await ctx.message.delete()
+        msg = await ctx.send('!ghostbucks')
+        await msg.delete()
 
 
 
