@@ -12,13 +12,13 @@ updater () {
 	if hash git 2>/dev/null; then
 		echo "Fetching origin"
 		git init >/dev/null 2>&1
-		git remote add origin https://github.com/appu1232/Discord-Selfbot.git >/dev/null 2>&1
-		git fetch origin master
+		# git remote add origin https://github.com/appu1232/Discord-Selfbot.git >/dev/null 2>&1
+		git fetch >/dev/null 2>&1
 		if [ -d "settings" ]; then
 			cp -r settings settings_backup
 		fi
 			echo "Updating to latest stable build."
-			if git pull origin master ; then
+			if git pull origin dev ; then
 				echo "Update succeeded"
 				sleep 2
 			else
