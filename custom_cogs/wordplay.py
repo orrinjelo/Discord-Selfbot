@@ -2,6 +2,7 @@ import discord
 import io
 import re
 from wordcloud import WordCloud
+import datetime as dt
 
 from discord.ext import commands
 from cogs.utils.checks import load_optional_config, get_google_entries, embed_perms
@@ -65,13 +66,38 @@ class WordSmith:
         except Exception as e:
             print('{}'.format(e))
         
-    @wordsmith.command(pass_context=True, name="channels", aliases=['chan','chans','ch'])
-    async def channels(self, ctx, channel):
-        try:
-            pass
-        except:
-            print("Fail.")
+    # @wordsmith.command(pass_context=True, name="channels", aliases=['chan','chans','ch'])
+    # async def channels(self, ctx, channel):
+    #     try:
+    #         pass
+    #     except:
+    #         print("Fail.")
 
+    @wordsmith.command(pass_context=True, name="posts", aliases=['post'])
+    async def posts(self, ctx, channel, maxmsg=1000):
+        try:
+            messages = None
+            for chan in self.bot.get_all_channels():
+                if chan.guild == ctx.guild:
+                    if chan.name == channel:
+                        messages = await chan.history(limit=maxmsg).flatten()
+            if not messages:
+                await ctx.send("Channel not found.")
+                return
+            dcount = {}
+            for msg in messages:
+                tTime = msg.timestamp
+                tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
+                if tTime in dcount:
+                    dcount[ tTime ] += 1
+                else:
+                    dcount[ tTime ] = 1
+
+            print(dcount)
+
+
+        except Exception as e:
+            print('{}'.format(e)) 
 
 
 def setup(bot):
