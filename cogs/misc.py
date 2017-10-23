@@ -759,6 +759,7 @@ class Misc:
     async def brusselssprouts(self, ctx, txt: str = None):
         """Brussels Sprouts are good for you."""
         await ctx.send('!ghostbucks')
+        await asyncio.sleep(0.2)
         await ctx.message.delete()
 
 
