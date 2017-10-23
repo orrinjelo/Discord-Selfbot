@@ -755,6 +755,11 @@ class Misc:
         """No one suspects the banana"""
         await ctx.message.delete()
 
+    @commands.command(pass_context=True, aliases=['brusselsprouts','bs'])
+    async def brusselssprouts(self, ctx, txt: str = None):
+        """Brussels Sprouts are good for you."""
+        await ctx.send('!ghostbucks')
+        await ctx.message.delete()
 
 
 
