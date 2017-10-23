@@ -13,10 +13,10 @@ class Jplot:
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.group(pass_context=True)
+    @commands.group(pass_context=True, name='jplot')
     async def jplot(self, ctx):
         """Grabbing a plot and cracking a cold one with the boys"""
-        # if ctx.invoked_subcommand is None:
+        if ctx.invoked_subcommand is None:
             await ctx.send(self.bot.bot_prefix + 'Invalid Syntax. See `>help jplot` for more info on how to use this command.')
 
 
