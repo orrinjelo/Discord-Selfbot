@@ -86,15 +86,26 @@ class WordSmith:
                 return
             dcount = {}
             for msg in messages:
-                tTime = msg.timestamp
+                tTime = msg.created_at
                 tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
                 if tTime in dcount:
                     dcount[ tTime ] += 1
                 else:
                     dcount[ tTime ] = 1
 
-            print(dcount)
+            # print(dcount)
+            import pandas as pd 
+            import matplotlib.pyplot as plt 
 
+            fig = plt.figure()
+
+            ts = pd.Series(dcount)
+            ts.plot()
+            
+            f = io.BytesIO()
+            fig.savefig(f, format='png')
+            await ctx.send(file=discord.File(fp=f.getbuffer(), filename="plot.png"))
+            f.close()
 
         except Exception as e:
             print('{}'.format(e)) 
