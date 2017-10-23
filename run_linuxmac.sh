@@ -13,21 +13,20 @@ updater () {
 		echo "Fetching origin"
 		git init >/dev/null 2>&1
 		# git remote add origin https://github.com/appu1232/Discord-Selfbot.git >/dev/null 2>&1
-		git fetch >/dev/null 2>&1
+		git fetch origin dev >/dev/null 2>&1
 		if [ -d "settings" ]; then
 			cp -r settings settings_backup
 		fi
-			echo "Updating to latest stable build."
-			if git pull origin dev ; then
-				echo "Update succeeded"
-				sleep 2
-			else
-				echo "Pull failed, attempting to hard reset to origin master (settings are still saved)"
-				git fetch --all
-				git reset --hard origin/master
-				echo "Update succeeded"
-				sleep 2
-			fi
+		echo "Updating to latest stable build."
+		if git pull origin dev ; then
+			echo "Update succeeded"
+			sleep 2
+		else
+			echo "Pull failed, attempting to hard reset to origin master (settings are still saved)"
+			git fetch --all
+			git reset --hard origin/master
+			echo "Update succeeded"
+			sleep 2
 		fi
 		sleep 1
 	else
