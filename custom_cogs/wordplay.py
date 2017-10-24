@@ -7,6 +7,9 @@ import datetime as dt
 from discord.ext import commands
 from cogs.utils.checks import load_optional_config, get_google_entries, embed_perms
 
+import pandas as pd 
+import matplotlib.pyplot as plt
+
 class WordSmith:
     def __init__(self, bot):
         self.bot = bot
@@ -53,7 +56,7 @@ class WordSmith:
             # await ctx.send(embed=em)
 
             wordcloud = WordCloud().generate_from_frequencies(wordDict)
-            import matplotlib.pyplot as plt
+            
             fig = plt.figure()
             plt.imshow(wordcloud, interpolation='bilinear')
             plt.axis("off")
@@ -84,7 +87,6 @@ class WordSmith:
             if not messages:
                 await ctx.send("Channel not found.")
                 return
-            print('Test1')
             dcount = {}
             for msg in messages:
                 tTime = msg.created_at
@@ -94,25 +96,20 @@ class WordSmith:
                 else:
                     dcount[ tTime ] = 1
 
-            print('Test2')
-            # print(dcount)
-            import pandas as pd 
-            import matplotlib.pyplot as plt 
-            print('Test3')
+ 
+
             dx = {}
             for x in [min(dcount) + dt.timedelta(hours=h) for h in range((max(dcount) - min(dcount)).seconds // 60**2 + (max(dcount) - min(dcount)).days * 24)]:
                 dx[str(x)] = 0
             for k in dcount.keys():
                 dx[str(k)] = dcount[k]
             ts = pd.DataFrame.from_dict(dx, orient='index')             
-            print('Test4')
 
             fig = plt.figure()
 
-            print('Test5')
-            ts.plot(kind='barh', label='member posts')
-            plt.tight_layout()
-            
+            ts.plot(kind='barh')
+            plt.tight_layout()            
+
             f = io.BytesIO()
             fig.savefig(f, format='png')
             await ctx.send(file=discord.File(fp=f.getbuffer(), filename="plot.png"))
