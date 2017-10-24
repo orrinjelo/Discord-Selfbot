@@ -100,7 +100,7 @@ class WordSmith:
             fig = plt.figure()
 
             ts = pd.Series(dcount)
-            ts.plot()
+            ts.hist()
             
             f = io.BytesIO()
             fig.savefig(f, format='png')
