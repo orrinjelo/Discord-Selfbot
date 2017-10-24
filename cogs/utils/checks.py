@@ -99,7 +99,7 @@ def update_bot(message):
         if message is False:
             version = 4
         else:
-            version = g.execute(["git", "rev-list", "--right-only", "--count", "master...origin/master"])
+            version = g.execute(["git", "rev-list", "--right-only", "--count", "dev...origin/dev"])
         version = description = str(int(version) + 1)
         if int(version) > 4:
             version = "4"
