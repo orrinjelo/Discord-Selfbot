@@ -96,11 +96,19 @@ class WordSmith:
             # print(dcount)
             import pandas as pd 
             import matplotlib.pyplot as plt 
+            import datetime as dt 
+
+            dx = {}
+            for x in [min(dcount) + dt.timedelta(hours=h) for h in range((max(dcount) - min(dcount)).seconds // 60**2 + (max(dcount) - min(dcount)).days * 24)]:
+                dx[str(x)] = 0
+            for k in dcount.keys():
+                dx[str(k)] = dcount[k]
+            ts = pd.DataFrame.from_dict(dx, orient='index')             
 
             fig = plt.figure()
 
-            ts = pd.Series(dcount)
-            ts.plot()
+            ts.plot(kind='barh', label='member posts')
+            plt.tight_layout()
             
             f = io.BytesIO()
             fig.savefig(f, format='png')
