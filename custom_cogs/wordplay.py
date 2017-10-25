@@ -101,7 +101,7 @@ class WordSmith:
             #         dcount[ tTime ] = 1 
 
             dx = {}
-            for x in [now + dt.timedelta(hours=h) for h in range(numhours)]:
+            for x in [now - dt.timedelta(hours=h) for h in range(numhours)]:
                 dx[str(x)] = 0
             # for k in dcount.keys():
             #     dx[str(k)] = dcount[k]
