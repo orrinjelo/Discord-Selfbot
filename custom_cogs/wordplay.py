@@ -80,7 +80,8 @@ class WordSmith:
     async def posts(self, ctx, channel, numhours=48):
         freq = 15
         try:
-            now = dt.datetime.now() - dt.timedelta(minutes = now.minute, seconds = now.second, microseconds = now.microsecond)
+            now = dt.datetime.now() 
+            now -= dt.timedelta(minutes = now.minute, seconds = now.second, microseconds = now.microsecond)
             then = now - dt.timedelta(hours=numhours)
             messages = None
             for chan in self.bot.get_all_channels():
