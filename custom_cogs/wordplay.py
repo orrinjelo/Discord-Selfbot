@@ -103,13 +103,13 @@ class WordSmith:
                 dx[str(x)] = 0
             for k in dcount.keys():
                 dx[str(k)] = dcount[k]
-            ts = pd.DataFrame.from_dict(dx, orient='index')             
+            ts = pd.DataFrame.from_dict(dx, orient='index')      
 
-            fig = plt.figure()
-
-            ts.plot(kind='barh')
+            ax = ts.plot(kind='barh')
             plt.tight_layout()            
 
+            fig = ax.get_figure()
+            
             f = io.BytesIO()
             fig.savefig(f, format='png')
             await ctx.send(file=discord.File(fp=f.getbuffer(), filename="plot.png"))
