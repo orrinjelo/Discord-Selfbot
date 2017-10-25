@@ -91,19 +91,26 @@ class WordSmith:
                 await ctx.send("Channel not found.")
                 return
             dcount = {}
+            # for msg in messages:
+            #     tTime = msg.created_at
+            #     tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
+            #     if tTime in dcount:
+            #         dcount[ tTime ] += 1
+            #     else:
+            #         dcount[ tTime ] = 1 
+
+            dx = {}
+            for x in [now + dt.timedelta(hours=h) for h in range(numhours)]:
+                dx[str(x)] = 0
+            # for k in dcount.keys():
+            #     dx[str(k)] = dcount[k]
             for msg in messages:
                 tTime = msg.created_at
                 tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
-                if tTime in dcount:
+                if str(tTime) in dx:
                     dcount[ tTime ] += 1
-                else:
-                    dcount[ tTime ] = 1 
 
-            dx = {}
-            for x in [min(dcount) + dt.timedelta(hours=h) for h in range((max(dcount) - min(dcount)).seconds // 60**2 + (max(dcount) - min(dcount)).days * 24)]:
-                dx[str(x)] = 0
-            for k in dcount.keys():
-                dx[str(k)] = dcount[k]
+
             ts = pd.DataFrame.from_dict(dx, orient='index')      
 
             ax = ts.plot(kind='barh')
