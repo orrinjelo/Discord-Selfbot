@@ -109,7 +109,7 @@ class WordSmith:
                 tTime = msg.created_at
                 tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
                 if str(tTime) in dx:
-                    dcount[ tTime ] += 1
+                    dx[ str(tTime) ] += 1
 
 
             ts = pd.DataFrame.from_dict(dx, orient='index')      
