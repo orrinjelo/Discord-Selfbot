@@ -107,7 +107,7 @@ class WordSmith:
             ts = pd.DataFrame.from_dict(dx, orient='index')      
 
             ax = ts.plot(kind='barh')
-            ax.legends(['member posts'])
+            ax.legend(['member posts'])
             for container in ax.containers:
                 plt.setp(container, width=1)
             plt.tight_layout()            
