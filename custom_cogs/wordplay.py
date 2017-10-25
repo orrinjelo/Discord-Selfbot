@@ -107,9 +107,12 @@ class WordSmith:
             ts = pd.DataFrame.from_dict(dx, orient='index')      
 
             ax = ts.plot(kind='barh')
+            ax.legends(['member posts'])
+            for container in ax.containers:
+                plt.setp(container, width=1)
             plt.tight_layout()            
-
-            plt.yticks(range(len(dx.keys()))[::len(dx.keys())//freq], list(dx.keys())[::len(dx.keys())//freq])
+            plt.gca().invert_yaxis()
+            plt.yticks(range(len(dx.keys()))[::len(dx.keys())//freq], sorted(list(dx.keys()))[::len(dx.keys())//freq])
 
             fig = ax.get_figure()
 
