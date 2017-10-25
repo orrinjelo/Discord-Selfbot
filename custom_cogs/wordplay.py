@@ -17,7 +17,7 @@ class WordSmith:
     @commands.group(pass_context=True, aliases=['ws'])
     async def wordsmith(self, ctx):
         """A utility to analyze word statistics"""
-        await ctx.message.delete()
+        # await ctx.message.delete()
         if ctx.invoked_subcommand is None:
             await ctx.send(self.bot.bot_prefix + 'Invalid Syntax. See `>help wordsmith` for more info on how to use this command.')
 
@@ -77,13 +77,16 @@ class WordSmith:
     #         print("Fail.")
 
     @wordsmith.command(pass_context=True, name="posts", aliases=['post'])
-    async def posts(self, ctx, channel, maxmsg=1000):
+    async def posts(self, ctx, channel, numhours=48):
+        freq = 15
         try:
+            now = dt.datetime.now()
+            then = now - dt.timedelta(hours=numhours)
             messages = None
             for chan in self.bot.get_all_channels():
                 if chan.guild == ctx.guild:
                     if chan.name == channel:
-                        messages = await chan.history(limit=maxmsg).flatten()
+                        messages = await chan.history(before=now, after=then).flatten()
             if not messages:
                 await ctx.send("Channel not found.")
                 return
@@ -94,9 +97,7 @@ class WordSmith:
                 if tTime in dcount:
                     dcount[ tTime ] += 1
                 else:
-                    dcount[ tTime ] = 1
-
- 
+                    dcount[ tTime ] = 1 
 
             dx = {}
             for x in [min(dcount) + dt.timedelta(hours=h) for h in range((max(dcount) - min(dcount)).seconds // 60**2 + (max(dcount) - min(dcount)).days * 24)]:
@@ -108,8 +109,10 @@ class WordSmith:
             ax = ts.plot(kind='barh')
             plt.tight_layout()            
 
+            plt.yticks(range(len(dx.keys()))[::len(dx.keys())//freq], list(dx.keys())[::len(dx.keys())//freq])
+
             fig = ax.get_figure()
-            
+
             f = io.BytesIO()
             fig.savefig(f, format='png')
             await ctx.send(file=discord.File(fp=f.getbuffer(), filename="plot.png"))
