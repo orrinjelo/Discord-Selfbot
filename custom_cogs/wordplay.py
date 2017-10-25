@@ -119,10 +119,10 @@ class WordSmith:
             ax = ts.plot(kind='barh')
             ax.legend(['member posts'])
             for container in ax.containers:
-                plt.setp(container, width=1)
+                plt.setp(container, height=1)
             plt.tight_layout()            
             plt.gca().invert_yaxis()
-            plt.yticks(range(len(dx.keys()))[::len(dx.keys())//freq], sorted(list(dx.keys()))[::len(dx.keys())//freq])
+            plt.yticks(range(len(dx.keys()))[::min(1,len(dx.keys())//freq)], sorted(list(dx.keys()))[::min(1,len(dx.keys())//freq)])
 
             fig = ax.get_figure()
 
