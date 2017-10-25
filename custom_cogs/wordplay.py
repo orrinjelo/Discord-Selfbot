@@ -101,8 +101,8 @@ class WordSmith:
             #         dcount[ tTime ] = 1 
 
             dx = {}
-            for x in [now - dt.timedelta(hours=h) for h in range(numhours)]:
-                dx[str(x)] = 0
+            # for x in [now - dt.timedelta(hours=h) for h in range(numhours)]:
+            #     dx[str(x)] = 0
             # for k in dcount.keys():
             #     dx[str(k)] = dcount[k]
             for msg in messages:
@@ -110,6 +110,8 @@ class WordSmith:
                 tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
                 if str(tTime) in dx:
                     dx[ str(tTime) ] += 1
+                else:
+                    dx[ str(tTime) ] = 1
 
 
             ts = pd.DataFrame.from_dict(dx, orient='index')      
