@@ -87,7 +87,7 @@ class WordSmith:
             for chan in self.bot.get_all_channels():
                 if chan.guild == ctx.guild:
                     if chan.name == channel:
-                        messages = await chan.history(before=now, after=then).flatten()
+                        messages = await chan.history(after=then).flatten()
             if not messages:
                 await ctx.send("Channel not found.")
                 return
@@ -122,6 +122,7 @@ class WordSmith:
                 plt.setp(container, height=1)
             plt.tight_layout()            
             plt.gca().invert_yaxis()
+            plt.title('post histogram for #{0}'.format(channel))
             plt.yticks(range(len(dx.keys()))[::max(1,len(dx.keys())//freq)], sorted(list(dx.keys()))[::max(1,len(dx.keys())//freq)])
 
             fig = ax.get_figure()
