@@ -101,10 +101,8 @@ class WordSmith:
             #         dcount[ tTime ] = 1 
 
             dx = {}
-            # for x in [now - dt.timedelta(hours=h) for h in range(numhours)]:
-            #     dx[str(x)] = 0
-            # for k in dcount.keys():
-            #     dx[str(k)] = dcount[k]
+            for x in [now - dt.timedelta(hours=h) for h in range(numhours)]:
+                dx[str(x)] = 0
             for msg in messages:
                 tTime = msg.created_at
                 tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
