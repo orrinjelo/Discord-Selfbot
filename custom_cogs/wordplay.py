@@ -87,7 +87,7 @@ class WordSmith:
             for chan in self.bot.get_all_channels():
                 if chan.guild == ctx.guild:
                     if chan.name == channel:
-                        messages = await chan.history(after=then).flatten()
+                        messages = await chan.history(limit=1000).flatten()
             if not messages:
                 await ctx.send("Channel not found.")
                 return
@@ -108,11 +108,12 @@ class WordSmith:
             for msg in messages:
                 tTime = msg.created_at
                 tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
+                if tTime < then:
+                    continue
                 if str(tTime) in dx:
                     dx[ str(tTime) ] += 1
                 else:
                     dx[ str(tTime) ] = 1
-
 
             ts = pd.DataFrame.from_dict(dx, orient='index')      
 
