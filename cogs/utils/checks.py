@@ -91,7 +91,7 @@ def avatar_time_check(oldtime, interval):
 
 def update_bot(message):
     g = git.cmd.Git(working_dir=os.getcwd())
-    g.execute(["git", "fetch", "origin", "master"])
+    g.execute(["git", "fetch", "origin", "dev"])
     update = g.execute(["git", "remote", "show", "origin"])
     if ('up to date' in update or 'fast-forward' in update) and message:
         return False

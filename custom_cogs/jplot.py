@@ -66,6 +66,67 @@ class Jplot:
         fig.savefig(f, format='png')
         await ctx.send(file=discord.File(fp=f.getbuffer(), filename="plot.png"))
         f.close()  
+
+
+    @jplot.command(pass_context=True, name="posts", aliases=['post'])
+    async def posts(self, ctx, channel, numhours=48, msg_limit=1000):
+        freq = 15
+        try:
+            now = dt.datetime.now() 
+            now -= dt.timedelta(minutes = now.minute, seconds = now.second, microseconds = now.microsecond)
+            then = now - dt.timedelta(hours=numhours)
+            messages = None
+            for chan in self.bot.get_all_channels():
+                if chan.guild == ctx.guild:
+                    if chan.name == channel:
+                        messages = await chan.history(limit=msg_limit).flatten()
+            if not messages:
+                await ctx.send("Channel not found.")
+                return
+            dcount = {}
+            # for msg in messages:
+            #     tTime = msg.created_at
+            #     tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
+            #     if tTime in dcount:
+            #         dcount[ tTime ] += 1
+            #     else:
+            #         dcount[ tTime ] = 1 
+
+            dx = {}
+            for x in [now - dt.timedelta(hours=h) for h in range(numhours)]:
+                dx[str(x)] = 0
+            for msg in messages:
+                tTime = msg.created_at
+                tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
+                if tTime < then:
+                    continue
+                if str(tTime) in dx:
+                    dx[ str(tTime) ] += 1
+                else:
+                    dx[ str(tTime) ] = 1
+
+            ts = pd.DataFrame.from_dict(dx, orient='index')      
+
+            ax = ts.plot(kind='barh')
+            ax.legend(['member posts'])
+            for container in ax.containers:
+                plt.setp(container, height=1)
+            plt.tight_layout()            
+            plt.gca().invert_yaxis()
+            plt.title('post histogram for #{0}'.format(channel))
+            plt.yticks(range(len(dx.keys()))[::max(1,len(dx.keys())//freq)], sorted(list(dx.keys()))[::max(1,len(dx.keys())//freq)])
+
+            fig = ax.get_figure()
+
+            f = io.BytesIO()
+            fig.savefig(f, format='png')
+            await ctx.send(file=discord.File(fp=f.getbuffer(), filename="plot.png"))
+            f.close()
+
+        except Exception as e:
+            print('{}'.format(e)) 
+        except Exception as e:
+            print('{}'.format(e))         
     
 
 def setup(bot):
