@@ -104,18 +104,18 @@ def update_bot(message):
     #     version = description = str(int(version) + 1)
     #     if int(version) > 4:
     #         version = "4"
-    #     commits = g.execute(["git", "rev-list", "--max-count=%s" % version, "origin/master"])
-    #     commits = commits.split('\n')
-    #     em = discord.Embed(color=0x24292E, title='Latest changes for the selfbot:', description='%s release(s) behind.' % description)
-    #     for i in range(int(version)-1):
-    #         title = g.execute(["git", "log", "--format=%ar", "-n", "1", "%s" % commits[i]])
-    #         field = g.execute(["git", "log", "--pretty=oneline", "--abbrev-commit", "--shortstat", "%s" % commits[i], "^%s" % commits[i+1]])
-    #         field = field[8:].strip()
-    #         link = 'https://github.com/appu1232/Discord-Selfbot/commit/%s' % commits[i]
-    #         em.add_field(name=title, value='%s\n[Code changes](%s)' % (field, link), inline=False)
-    #     em.set_thumbnail(url='https://image.flaticon.com/icons/png/512/25/25231.png')
-    #     em.set_footer(text='Full project: https://github.com/appu1232/Discord-Selfbot')
-    #     return em
+    commits = g.execute(["git", "rev-list", "--max-count=%s" % 1, "origin/dev"])
+    commits = commits.split('\n')
+    em = discord.Embed(color=0x24292E, title='Latest changes for the selfbot:', description='%s release(s) behind.' % description)
+    for i in range(int(version)-1):
+        title = g.execute(["git", "log", "--format=%ar", "-n", "1", "%s" % commits[i]])
+        field = g.execute(["git", "log", "--pretty=oneline", "--abbrev-commit", "--shortstat", "%s" % commits[i], "^%s" % commits[i+1]])
+        field = field[8:].strip()
+        link = 'https://github.com/orrinjelo/Discord-Selfbot/commit/%s' % commits[i]
+        em.add_field(name=title, value='%s\n[Code changes](%s)' % (field, link), inline=False)
+    em.set_thumbnail(url='https://image.flaticon.com/icons/png/512/25/25231.png')
+    em.set_footer(text='Full project: https://github.com/appu1232/Discord-Selfbot')
+    return em
 
 
 def cmd_prefix_len():
