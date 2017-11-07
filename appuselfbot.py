@@ -506,7 +506,8 @@ async def on_message(message):
                 if response:
                     await message.delete()
                     await message.channel.send(response)
-
+    else:
+        await message.channel.send('Wat?')
     notified = message.mentions
     if notified:
         for i in notified:
@@ -656,6 +657,8 @@ async def on_message(message):
         # Bad habit but this is for skipping errors when dealing with Direct messages, blocked users, etc. Better to just ignore.
         except (AttributeError, discord.errors.HTTPException):
             pass
+
+
 
     await bot.process_commands(message)
 
