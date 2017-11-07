@@ -97,16 +97,16 @@ def update_bot(message):
     # if ('up to date' in update or 'fast-forward' in update) and message:
     #     return False
     # else:
-    #     if message is False:
-    #         version = 4
-    #     else:
-    #         version = g.execute(["git", "rev-list", "--right-only", "--count", "dev...origin/dev"])
-    #     version = description = str(int(version) + 1)
-    #     if int(version) > 4:
-    #         version = "4"
+    if message is False:
+        version = 4
+    else:
+        version = g.execute(["git", "rev-list", "--right-only", "--count", "dev...origin/dev"])
+    version = description = str(int(version) + 1)
+    if int(version) > 4:
+        version = "4"
     commits = g.execute(["git", "rev-list", "--max-count=%s" % 1, "origin/dev"])
     commits = commits.split('\n')
-    em = discord.Embed(color=0x24292E, title='Latest changes for the selfbot:', description='Test update.') #description='%s release(s) behind.' % description)
+    em = discord.Embed(color=0x24292E, title='Latest changes for the selfbot:', description='%s release(s) behind.' % description)
     for i in range(int(version)-1):
         title = g.execute(["git", "log", "--format=%ar", "-n", "1", "%s" % commits[i]])
         field = g.execute(["git", "log", "--pretty=oneline", "--abbrev-commit", "--shortstat", "%s" % commits[i], "^%s" % commits[i+1]])
