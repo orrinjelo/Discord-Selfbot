@@ -507,7 +507,7 @@ async def on_message(message):
                     await message.delete()
                     await message.channel.send(response)
     else:
-        await message.channel.send('Wat?')
+        await message.channel.send(bot.bot_prefix + 'Wat?  I don\'t recognize you as my master.')
     notified = message.mentions
     if notified:
         for i in notified:
