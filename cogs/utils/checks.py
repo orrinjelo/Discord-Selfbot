@@ -114,7 +114,7 @@ def update_bot(message):
         link = 'https://github.com/orrinjelo/Discord-Selfbot/commit/%s' % commits[i]
         em.add_field(name=title, value='%s\n[Code changes](%s)' % (field, link), inline=False)
     em.set_thumbnail(url='https://image.flaticon.com/icons/png/512/25/25231.png')
-    em.set_footer(text='Full project: https://github.com/appu1232/Discord-Selfbot')
+    em.set_footer(text='Full project: https://github.com/orrinjelo/Discord-Selfbot')
     return em
 
 
