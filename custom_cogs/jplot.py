@@ -6,6 +6,7 @@ import pylab
 import matplotlib.pyplot as plt
 from discord.ext import commands
 from cogs.utils.checks import load_optional_config, get_google_entries, embed_perms
+import datetime as dt
 
 from custom_cogs.utils.xkcd import *
 
