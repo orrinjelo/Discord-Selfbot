@@ -237,4 +237,13 @@ with
 would
 year
 you
-your'''
+your
+are
+had
+was
+has
+dont
+don't
+been
+were
+'''
