@@ -192,6 +192,8 @@ class Jplot:
         ax.set_xticks([])
         ax.set_yticks([])     
 
+        plt.tight_layout()
+
         f = io.BytesIO()
         fig.savefig(f, format='png')
         await ctx.send(file=discord.File(fp=f.getbuffer(), filename="quote.png"))
