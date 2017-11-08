@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 from discord.ext import commands
 from cogs.utils.checks import load_optional_config, get_google_entries, embed_perms
 import datetime as dt
-import xkcd
 import requests
+from requests import get
 import os
 from urllib.request import urlopen
 from PIL import Image
@@ -16,6 +16,11 @@ import matplotlib.image as mpimg
 import matplotlib.font_manager as fm
 
 from custom_cogs.utils.xkcd import *
+
+
+
+prop = fm.FontProperties(fname='Humor-Sans.ttf', size=16)
+font = {'fontname':'Comic Sans MS'}
 
 class Jplot:
     def __init__(self, bot):
