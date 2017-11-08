@@ -7,6 +7,13 @@ import matplotlib.pyplot as plt
 from discord.ext import commands
 from cogs.utils.checks import load_optional_config, get_google_entries, embed_perms
 import datetime as dt
+import xkcd
+import requests
+import os
+from urllib.request import urlopen
+from PIL import Image
+import matplotlib.image as mpimg
+import matplotlib.font_manager as fm
 
 from custom_cogs.utils.xkcd import *
 
@@ -126,9 +133,64 @@ class Jplot:
 
         except Exception as e:
             print('{}'.format(e)) 
-        except Exception as e:
-            print('{}'.format(e))         
-    
+         
+
+
+    @jplot.command(pass_context=True, name="quote", aliases=['q'])
+    async def quote(self, ctx, msg, keyword='abstract'):    
+        def wrapstr(mystr, wraplen=38):
+            finstr = ''''''
+
+            while mystr:
+                maxidx = wraplen if len(mystr)>wraplen-1 else len(mystr)
+                if len(mystr) > wraplen:
+                    spidx = maxidx - mystr[0:maxidx][::-1].index(' ')
+                    finstr += mystr[:spidx-1] + '\n'
+                    mystr = mystr[spidx:]
+                else:
+                    finstr += mystr
+                    mystr = ''
+            return finstr
+        fig, ax = plt.subplots()
+
+        key = '6969366-f7162cb00b48396f58f497b2b'
+
+        response = requests.get(
+            'https://pixabay.com/api/',
+            params={'key': key,
+                    'q': keyword,
+                    'category': 'backgrounds',
+                    'safesearch': 'true'
+                    })
+
+        imageDatas = response.json()['hits']
+        hit = np.random.choice(imageDatas)
+        img = hit['webformatURL']
+
+        def download(url, file_name):
+            # open in binary mode
+            with open(file_name, "wb") as file:
+                # get request
+                response = get(url)
+                # write to file
+                file.write(response.content)
+
+        download(img, img[-5:])
+        im = Image.open(img[-5:])
+        im.save('temp.png')
+        image = plt.imread('temp.png')
+        plt.imshow(image * 0.6 + 0.4)    
+        print(hit['imageWidth'], hit['imageHeight'], image.shape)
+        plt.text(image.shape[1]//2, image.shape[0]//2, r'{0}'.format(wrapstr(msg,image.shape[1]//20)), fontdict=font, horizontalalignment='center', verticalalignment='center')
+        for text in ax.texts:
+            text.set_fontproperties(prop)
+        ax.set_xticks([])
+        ax.set_yticks([])     
+
+        f = io.BytesIO()
+        fig.savefig(f, format='png')
+        await ctx.send(file=discord.File(fp=f.getbuffer(), filename="quote.png"))
+        f.close()
 
 def setup(bot):
     bot.add_cog(Jplot(bot))
