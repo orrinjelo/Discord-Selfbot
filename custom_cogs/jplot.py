@@ -143,6 +143,7 @@ class Jplot:
 
     @jplot.command(pass_context=True, name="quote", aliases=['q'])
     async def quote(self, ctx, msg, keyword='abstract'):    
+        await ctx.message.delete()
         def wrapstr(mystr, wraplen=38):
             finstr = ''''''
 
