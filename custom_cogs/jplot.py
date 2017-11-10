@@ -82,7 +82,7 @@ class Jplot:
 
 
     @jplot.command(pass_context=True, name="posts", aliases=['post'])
-    async def posts(self, ctx, channel, numhours=48, msg_limit=1000):
+    async def posts(self, ctx, channel, numhours=48, msg_limit=1000, stacked=False):
         freq = 15
         try:
             now = dt.datetime.now() 
@@ -111,6 +111,7 @@ class Jplot:
             for msg in messages:
                 tTime = msg.created_at
                 tTime -= dt.timedelta(minutes = tTime.minute, seconds = tTime.second, microseconds =  tTime.microsecond)
+                if stacked: tTime -= dt.timedelta(days=tTime.day)
                 if tTime < then:
                     continue
                 if str(tTime) in dx:
