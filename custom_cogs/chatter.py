@@ -34,7 +34,7 @@ class Chatter:
 
         response = request.getresponse()
 
-        await ctx.send(self.bot.bot_prefix + response.read())
+        await ctx.send(self.bot.bot_prefix + response.read().decode('utf-8'))
 
 
 def setup(bot):
