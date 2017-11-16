@@ -10,9 +10,9 @@ class Chatter:
         self.bot = bot
 
     @commands.group(pass_context=True, aliases=['ch', 'chat'])
-    async def chatter(self, ctx, msg):
+    async def chatter(self, ctx, *msg):
         '''A utility to communicate with Jelobot dialog flow'''
-        await ctx.send(msg)
+        await ctx.send(' '.join(msg))
 
 
 def setup(bot):
