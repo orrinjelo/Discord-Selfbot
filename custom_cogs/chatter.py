@@ -1,6 +1,7 @@
 import discord
 import io
 import re
+import json
 
 from discord.ext import commands
 from cogs.utils.checks import load_optional_config, get_google_entries, embed_perms
@@ -34,7 +35,9 @@ class Chatter:
 
         response = request.getresponse()
 
-        await ctx.send(self.bot.bot_prefix + response.read().decode('utf-8'))
+        d = json.loads(response.read().decode('utf-8'))
+
+        await ctx.send(self.bot.bot_prefix + d['messages']['speech'])
 
 
 def setup(bot):
