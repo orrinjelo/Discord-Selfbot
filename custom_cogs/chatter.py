@@ -13,3 +13,7 @@ class Chatter:
     async def chatter(self, ctx, msg):
         '''A utility to communicate with Jelobot dialog flow'''
         await ctx.send(msg)
+
+
+def setup(bot):
+    bot.add_cog(Chatter(bot))
