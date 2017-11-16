@@ -37,7 +37,7 @@ class Chatter:
 
         d = json.loads(response.read().decode('utf-8'))
 
-        await ctx.send(self.bot.bot_prefix + d['result']['fulfillment']['messages'][0]['speech'])
+        await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
 
 
 def setup(bot):
