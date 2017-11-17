@@ -40,5 +40,25 @@ class Chatter:
         await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
 
 
+    @commands.group(pass_context=True, aliases=['xch', 'xchat'])
+    async def xchatter(self, ctx, *msg):
+        '''A utility to communicate with Jelobot dialog flow'''
+        ai = apiai.ApiAI(CLIENT_ACCESS_TOKEN)
+
+        request = ai.text_request()
+
+        request.lang = 'en'  # optional, default value equal 'en'
+
+        request.session_id = "jelobot_user_11302"
+
+        request.query = ' '.join(msg)
+
+        response = request.getresponse()
+
+        d = json.loads(response.read().decode('utf-8'))
+
+        await ctx.send(self.bot.bot_prefix + ": " + d)
+
+
 def setup(bot):
     bot.add_cog(Chatter(bot))
