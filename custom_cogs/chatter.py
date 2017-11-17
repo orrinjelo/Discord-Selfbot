@@ -2,6 +2,7 @@ import discord
 import io
 import re
 import json
+import wikipedia
 
 from discord.ext import commands
 from cogs.utils.checks import load_optional_config, get_google_entries, embed_perms
@@ -39,8 +40,9 @@ class Chatter:
 
         if d['result']['action'] == "web.search":
             res, root = await get_google_entries(d['result']['parameters']['q'])
-            await ctx.send(res[0])
-            await ctx.send(self.bot.bot_prefix + ": Well, I did find this: ")
+            await ctx.send(self.bot.bot_prefix + ": Well, I did find this: " + res[0])
+        else if d['result']['action'] == "wikipedia.search":
+            await ctx.send(self.bot.bot_prefix + ": " + wikipedia.summary(d['result']['parameters']['q']))
         else:
             await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
 
