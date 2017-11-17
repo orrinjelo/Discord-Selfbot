@@ -40,6 +40,7 @@ class Chatter:
         if d['result']['action'] == "web.search":
             res, root = await get_google_entries(d['result']['parameters']['q'])
             await ctx.send(res[0])
+            await ctx.send(self.bot.bot_prefix + ": Well, I did find this: ")
         else:
             await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
 
