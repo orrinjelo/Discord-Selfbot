@@ -38,7 +38,7 @@ class Chatter:
         d = json.loads(response.read().decode('utf-8'))
 
         if d['result']['action'] == "web.search":
-            res, root = get_google_entries(d['result']['parameters']['q'])
+            res, root = await get_google_entries(d['result']['parameters']['q'])
             await ctx.send(res[0])
         else:
             await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
