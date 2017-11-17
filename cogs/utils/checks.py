@@ -161,7 +161,7 @@ def find_channel(channel_list, text):
 async def get_google_entries(query):
     url = 'https://www.google.com/search?q={}'.format(uriquote(query))
     params = {
-        'safe': 'off',
+        'safe': 'on',
         'lr': 'lang_en',
         'h1': 'en'
     }
