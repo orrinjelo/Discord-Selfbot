@@ -38,10 +38,8 @@ class Chatter:
         d = json.loads(response.read().decode('utf-8'))
 
         if d['result']['action'] == "web.search":
-            if d['result']['service'] == 'Google':
-                await ctx.send('>g ' + d['result']['fulfillment']['parameters']['q'])
-            else:
-                await ctx.send(self.bot.bot_prefix + ": I haz teh dumbz.  I only know to use Google.")
+
+            await ctx.send('>g ' + d['result']['fulfillment']['parameters']['q'])
         else:
             await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
 
