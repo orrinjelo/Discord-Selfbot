@@ -37,7 +37,13 @@ class Chatter:
 
         d = json.loads(response.read().decode('utf-8'))
 
-        await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
+        if d['result']['action'] == "web.search":
+            if d['result']['service'] == 'Google':
+                await ctx.send('>g ' + d['result']['fulfillment']['parameters']['q'])
+            else:
+                await ctx.send(self.bot.bot_prefix + ": I haz teh dumbz.  I only know to use Google.")
+        else:
+            await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
 
 
     @commands.group(pass_context=True, aliases=['xch', 'xchat'])
@@ -55,9 +61,11 @@ class Chatter:
 
         response = request.getresponse()
 
-        d = json.loads(response.read().decode('utf-8'))
+        jsr = response.read().decode('utf-8')
 
-        await ctx.send(self.bot.bot_prefix + ": " + response.read().decode('utf-8'))
+        d = json.loads(jsr)
+
+        await ctx.send(self.bot.bot_prefix + ": " + jsr)
         print(d)
 
 
