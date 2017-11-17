@@ -38,7 +38,7 @@ class Chatter:
         d = json.loads(response.read().decode('utf-8'))
 
         if d['result']['action'] == "web.search":
-            await ctx.send('>g ' + d['result']['fulfillment']['parameters']['q'])
+            await ctx.send('>g ' + d['result']['parameters']['q'])
             await ctx.message.delete()
         else:
             await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
