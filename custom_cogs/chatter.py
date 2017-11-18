@@ -43,7 +43,12 @@ class Chatter:
                 res, root = await get_google_entries(d['result']['parameters']['q'])
                 await ctx.send(self.bot.bot_prefix + ": Well, I did find this: " + res[0])
             elif d['result']['action'] == "wikipedia.search":
-                await ctx.send(self.bot.bot_prefix + ": " + wikipedia.summary(d['result']['parameters']['q'][:1980]))
+                try:
+                    await ctx.send(self.bot.bot_prefix + ": " + wikipedia.summary(d['result']['parameters']['q'])[:1980])
+                except PageError as e:
+                    res, root = await get_google_entries(d['result']['parameters']['q'])
+                    await ctx.send(self.bot.bot_prefix + ": I'm not sure, but this is what I found on Google: " + res[0])
+
             else:
                 await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
         except Exception as e:
