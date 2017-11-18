@@ -44,7 +44,9 @@ class Chatter:
                 await ctx.send(self.bot.bot_prefix + ": Well, I did find this: " + res[0])
             elif d['result']['action'] == "wikipedia.search":
                 try:
-                    await ctx.send(self.bot.bot_prefix + ": " + wikipedia.summary(d['result']['parameters']['q'])[:1980])
+                    await ctx.send(self.bot.bot_prefix + ": " + wikipedia.summary(d['result']['parameters']['q'], sentences=2)[:1980])
+                    q = wikipedia.page(d['result']['parameters']['q'])
+                    await ctx.send(self.bot.bot_prefix + ": " + q.url)
                 except wikipedia.exceptions.PageError as e:
                     res, root = await get_google_entries(d['result']['parameters']['q'])
                     await ctx.send(self.bot.bot_prefix + ": I'm not sure, but this is what I found on Google: " + res[0])
