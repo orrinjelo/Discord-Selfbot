@@ -46,8 +46,8 @@ class Chatter:
                 await ctx.send(self.bot.bot_prefix + ": " + wikipedia.summary(d['result']['parameters']['q'][:1980]))
             else:
                 await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])
-        except:
-            await ctx.send(self.bot.bot_prefix + ": I'm sorry, I don't know how to respond to that.  I haz teh dumbz.")
+        except Exception as e:
+            await ctx.send(self.bot.bot_prefix + ": I'm sorry, I don't know how to respond to that.  I haz teh dumbz. ({})".format(e))
 
 
     @commands.group(pass_context=True, aliases=['xch', 'xchat'])
