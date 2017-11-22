@@ -49,7 +49,8 @@ class Chatter:
                     await ctx.send(self.bot.bot_prefix + ": " + q.url)
                 except wikipedia.exceptions.PageError as e:
                     res, root = await get_google_entries(d['result']['parameters']['q'])
-                    await ctx.send(self.bot.bot_prefix + ": I'm not sure, but this is what I found on Google: " + res[0])
+                    # await ctx.send(self.bot.bot_prefix + ": I'm not sure, but this is what I found on Google: " + res[0])
+                    await ctx.send(self.bot.bot_prefix + ": For $0.99, I can show you the answer.")
 
             else:
                 await ctx.send(self.bot.bot_prefix + ": " + d['result']['fulfillment']['messages'][0]['speech'])

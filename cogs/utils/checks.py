@@ -175,7 +175,6 @@ async def get_google_entries(query):
                 config = load_optional_config()
                 async with session.get("https://www.googleapis.com/customsearch/v1?q=" + quote_plus(query) + "&start=" + '1' + "&key=" + config['google_api_key'] + "&cx=" + config['custom_search_engine']) as resp:
                     result = json.loads(await resp.text())
-                    print result
                 return None, result['items'][0]['link']
 
             try:
